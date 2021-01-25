@@ -33,6 +33,16 @@ class Plugin {
 	const DEFAULT_REDIRECT_WAIT_SECONDS = 3;
 
 	public function __construct() {
+
+		/**
+		 * load translations
+		 */
+		load_plugin_textdomain(
+			self::DOMAIN,
+			false,
+			plugin_basename( dirname( __FILE__ ) ) . '/languages'
+		);
+
 		add_action( 'login_form', [ $this, 'login_form' ] );
 		add_action( "login_form_login", [ $this, 'login_action' ] );
 	}
