@@ -29,19 +29,22 @@ class Plugin {
 	const FILTER_GET_PARAM_NAME = "a_little_more_secure_get_param_name";
 	const FILTER_REDIRECT_WAIT_SECONDS = "a_little_more_secure_redirect_wait_seconds";
 
+	const DEFAULT_GET_PARAM_NAME = "a-little-more-secure";
+	const DEFAULT_REDIRECT_WAIT_SECONDS = 3;
+
 	public function __construct() {
 		add_action( 'login_form', [ $this, 'login_form' ] );
 		add_action( "login_form_login", [ $this, 'login_action' ] );
 	}
 
 	public function getParamName() {
-		return apply_filters( self::FILTER_GET_PARAM_NAME, "a-little-more-secure" );
+		return apply_filters( self::FILTER_GET_PARAM_NAME, self::DEFAULT_GET_PARAM_NAME );
 	}
 
 	public function login_form() {
 		$getParam = $this->getParamName();
 		if ( ! isset( $_GET[ $getParam ] ) ) {
-			$waitForSeconds = apply_filters( self::FILTER_REDIRECT_WAIT_SECONDS, 3 );
+			$waitForSeconds = apply_filters( self::FILTER_REDIRECT_WAIT_SECONDS, self::DEFAULT_REDIRECT_WAIT_SECONDS );
 			$text           = sprintf(
 				__( "Redirect to login form in %s seconds.", self::DOMAIN ),
 				"<span id='wait-for-secure-login__seconds'>$waitForSeconds</span>"
@@ -86,7 +89,7 @@ class Plugin {
 			&&
 			! wp_verify_nonce( $_POST[ self::NONCE_NAME ], self::NONCE_ACTION )
 		) {
-			echo "Sorry, this feels not very secure.";
+			echo __("Sorry, this feels not very secure.", self::DOMAIN);
 			exit;
 		}
 	}
