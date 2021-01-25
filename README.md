@@ -1,6 +1,6 @@
 # A little more secure
 
-WordPress plugin that should protect wp-login.php form from brute force attacks.
+WordPress plugin that should protect wp-login.php form brute force attacks.
 
 ## Custom security parameter
 
@@ -15,7 +15,7 @@ add_filter('a_little_more_secure_get_param_name', function($name){
 
 ## Redirect waiting time
 
-If the wp-login.php is requested without the secure parameter there will be a JavaScript redirect. The waiting time can be customized with the `a_little_more_secure_redirect_wait_seconds` filter.
+The waiting time for JavaScript redirect can be customized with the `a_little_more_secure_redirect_wait_seconds` filter.
 
 ```php
 add_filter('a_little_more_secure_redirect_wait_seconds', function($seconds){
