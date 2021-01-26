@@ -32,7 +32,7 @@ class Plugin {
 	const DEFAULT_GET_PARAM_NAME = "a-little-more-secure";
 	const DEFAULT_REDIRECT_WAIT_SECONDS = 3;
 
-	public function __construct() {
+	private function __construct() {
 
 		/**
 		 * load translations
@@ -45,6 +45,7 @@ class Plugin {
 
 		add_action( 'login_form', [ $this, 'login_form' ] );
 		add_action( "login_form_login", [ $this, 'login_action' ] );
+		add_filter( 'login_form_bottom', [$this, 'login_form_bottom'], 10, 2);
 	}
 
 	public function getParamName() {
@@ -65,7 +66,7 @@ class Plugin {
 
 			// ------ wait for secure login ---
 			echo "<div id='wait-for-secure-login'>";
-			printf("<p>%s</p>", __("Securing login..."));
+			printf("<p>%s</p>", __("Securing login...", self::DOMAIN));
 			$text           = sprintf(
 				__( "%s seconds left", self::DOMAIN ),
 				"<span id='wait-for-secure-login__seconds'>$waitForSeconds</span>"
@@ -137,21 +138,50 @@ class Plugin {
 			login_footer();
 			exit;
 		} else {
-			wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME );
+			$this->nonceField();
 		}
+	}
+
+	public function nonceField(){
+		wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME );
 	}
 
 	public function login_action() {
 		if (
 			$_SERVER['REQUEST_METHOD'] === 'POST'
 			&&
-			! wp_verify_nonce( $_POST[ self::NONCE_NAME ], self::NONCE_ACTION )
+            (
+                !isset($_POST[ self::NONCE_NAME ])
+                ||
+                ! wp_verify_nonce( $_POST[ self::NONCE_NAME ], self::NONCE_ACTION )
+			)
 		) {
-			echo __( "Sorry, this feels not very secure.", self::DOMAIN );
-			exit;
+			wp_die( __( "Sorry, this feels not very secure.", self::DOMAIN ));
 		}
 	}
 
+	public function login_form_bottom($content, $args){
+	    // other login forms that are not on /wp-login.php are ignored by this plugin
+	    ob_start();
+	    $this->nonceField();
+		$field = ob_get_contents();
+		ob_end_clean();
+		return $content.$field;
+	}
+
+	private static $instance;
+
+	/**
+	 * @return Plugin
+	 */
+	public static function instance(){
+	    if(!static::$instance){
+	        static::$instance = new static();
+	    }
+	    return static::$instance;
+	}
 }
 
-new Plugin();
+Plugin::instance();
+
+require_once dirname(__FILE__). "/public-functions.php";
