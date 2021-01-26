@@ -55,36 +55,84 @@ class Plugin {
 		$getParam = $this->getParamName();
 		if ( ! isset( $_GET[ $getParam ] ) ) {
 			$waitForSeconds = apply_filters( self::FILTER_REDIRECT_WAIT_SECONDS, self::DEFAULT_REDIRECT_WAIT_SECONDS );
+
+			if(WP_DEBUG){
+				echo "<!-- START secure login -->";
+            }
+			$img = esc_url( get_admin_url() . 'images/spinner.gif' );
+			// --- START
+			echo "<div id='secure-login-wrapper'><img src='$img' />";
+
+			// ------ wait for secure login ---
+			echo "<div id='wait-for-secure-login'>";
+			printf("<p>%s</p>", __("Securing login..."));
 			$text           = sprintf(
-				__( "Redirect to login form in %s seconds.", self::DOMAIN ),
+				__( "%s seconds left", self::DOMAIN ),
 				"<span id='wait-for-secure-login__seconds'>$waitForSeconds</span>"
 			);
-			echo "<div id='wait-for-secure-login'>$text</div>";
+			echo "<p><i>$text</i></p>";
+			echo "</div>";
+
+			// ------ redirect to login ---
+			printf("<div id='redirect-to-secure-login'>%s</div>", __( "Redirect to secure login...", self::DOMAIN ));
+
+			// --- END
+			echo "</div>";
+
+			if(WP_DEBUG){
+				echo "<!-- END: secure login -->";
+            }
+
 			?>
-			<style>
-				#wait-for-secure-login {
-					font-size: 0.9rem;
-					padding-top: 20px;
-				}
-			</style>
-			<script>
-				const waitForSeconds = <?= $waitForSeconds ?>;
-				let waited = 0;
-				const el = document.getElementById("wait-for-secure-login__seconds");
-				document.getElementById("user_login").closest("p").remove();
-				document.getElementById("user_pass").closest(".user-pass-wrap").remove();
-				setInterval(function () {
-					waited++;
-					const remaining = waitForSeconds - waited;
-					el.innerText = remaining >= 0 ? remaining + "" : "0";
-				}, 1000);
-				setTimeout(function () {
-					const href = window.location.href;
-					const connector = href.indexOf("?") > 0 ? "&" : "?";
-					window.location.href = href + connector + "<?= $getParam; ?>";
-				}, waitForSeconds * 1000);
-			</script>
-			</form>
+            <style>
+                #secure-login-wrapper{
+                    position: relative;
+                    padding-top: 20px;
+                }
+                #secure-login-wrapper img{
+                    position: absolute;
+                    top: 22px;
+                }
+                #secure-login-wrapper > div {
+                    padding-left: 30px;
+                }
+                #wait-for-secure-login, #redirect-to-secure-login  {
+                    position: relative;
+                    font-size: 1.1rem;
+
+                }
+                #wait-for-secure-login p:nth-child(2){
+                    font-size: 0.9rem;
+                }
+            </style>
+            <script>
+                const waitForSeconds = <?= $waitForSeconds ?>;
+                let waited = 0;
+
+                const waitEl = document.getElementById("wait-for-secure-login");
+                const secondsEl = document.getElementById("wait-for-secure-login__seconds");
+                const redirectEl = document.getElementById("redirect-to-secure-login");
+
+                redirectEl.style.display = "none";
+
+                document.getElementById("user_login").closest("p").remove();
+                document.getElementById("user_pass").closest(".user-pass-wrap").remove();
+
+                const uiInterval = setInterval(function () {
+                    waited++;
+                    const remaining = waitForSeconds - waited;
+                    secondsEl.innerText = remaining >= 0 ? remaining + "" : "0";
+                    if (remaining <= 0) clearInterval(uiInterval);
+                }, 1000);
+                setTimeout(function () {
+                    waitEl.style.display = "none";
+                    redirectEl.style.display = "inherit";
+                    const href = window.location.href;
+                    const connector = href.indexOf("?") > 0 ? "&" : "?";
+                    window.location.href = href + connector + "<?= $getParam; ?>";
+                }, waitForSeconds * 1000);
+            </script>
+            </form>
 			<?php
 			login_footer();
 			exit;
@@ -99,7 +147,7 @@ class Plugin {
 			&&
 			! wp_verify_nonce( $_POST[ self::NONCE_NAME ], self::NONCE_ACTION )
 		) {
-			echo __("Sorry, this feels not very secure.", self::DOMAIN);
+			echo __( "Sorry, this feels not very secure.", self::DOMAIN );
 			exit;
 		}
 	}
