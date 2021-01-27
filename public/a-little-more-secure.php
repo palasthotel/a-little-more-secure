@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: A little more secure
- * Plugin URI: https://palasthotel.de
+ * Plugin URI: https://github.com/palasthotel/a-little-more-secure
  * Description: Prevent brute force login attacks on wp-login.php
  * Version: 1.0.0
  * Author: Palasthotel <edward.bock@palasthotel.de>
@@ -13,7 +13,7 @@
  * Tested up to: 5.6
  * License: http://www.gnu.org/licenses/gpl-3.0.html GPLv3
  *
- * @copyright Copyright (c) 2018, Palasthotel
+ * @copyright Copyright (c) 2021, Palasthotel
  * @package Palasthotel\ALittleMoreSecure
  */
 
