@@ -3,7 +3,7 @@
 /**
  * Plugin Name: A little more secure
  * Plugin URI: https://github.com/palasthotel/a-little-more-secure
- * Description: Prevent brute force login attacks on wp-login.php
+ * Description: Stop bots from brute force hacking your wp-login.php
  * Version: 1.0.0
  * Author: Palasthotel <edward.bock@palasthotel.de>
  * Author URI: https://palasthotel.de
@@ -138,6 +138,15 @@ class Plugin {
 			login_footer();
 			exit;
 		} else {
+			?>
+			<style>
+				#secure-login-info{
+					padding-bottom: 10px;
+					font-size: 14px;
+				}
+			</style>
+			<?php
+			printf("<p id='secure-login-info'>🔒 %s</p>", __("Your login is a little more secure.", self::DOMAIN));
 			$this->nonceField();
 		}
 	}

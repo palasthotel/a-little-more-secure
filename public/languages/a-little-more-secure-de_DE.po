@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: A little more secure\n"
-"POT-Creation-Date: 2021-01-26 08:44+0100\n"
-"PO-Revision-Date: 2021-01-26 08:47+0100\n"
+"POT-Creation-Date: 2021-01-27 07:44+0100\n"
+"PO-Revision-Date: 2021-01-27 07:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -21,20 +21,24 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
-#: a-little-more-secure.php:68
+#: a-little-more-secure.php:69
 msgid "Securing login..."
 msgstr "Anmeldung wird abgesichert..."
 
-#: a-little-more-secure.php:70
+#: a-little-more-secure.php:71
 #, php-format
 msgid "%s seconds left"
 msgstr "noch %s Sekunden"
 
-#: a-little-more-secure.php:77
+#: a-little-more-secure.php:78
 msgid "Redirect to secure login..."
 msgstr "Umleiten zur sicheren Anmeldung..."
 
-#: a-little-more-secure.php:150
+#: a-little-more-secure.php:149
+msgid "Your login is a little more secure."
+msgstr "Ihr Login ist etwas sicherer."
+
+#: a-little-more-secure.php:168
 msgid "Sorry, this feels not very secure."
 msgstr "Sorry, das fühlt sich nicht sicher an."
 
@@ -43,16 +47,19 @@ msgid "A little more secure"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-#. Author URI of the plugin/theme
-msgid "https://palasthotel.de"
+msgid "https://github.com/palasthotel/a-little-more-secure"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Prevent brute force login attacks on wp-login.php"
-msgstr "Beugt Brute-Force-Attacken auf die wp-login.php vor"
+msgid "Stop bots from brute force hacking your wp-login.php"
+msgstr "Hält Bots davon ab die wp-login.php zu hacken"
 
 #. Author of the plugin/theme
 msgid "Palasthotel <edward.bock@palasthotel.de>"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://palasthotel.de"
 msgstr ""
 
 #, php-format

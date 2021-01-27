@@ -8,11 +8,11 @@ Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
-Protect wp-login.php form from brute force attacks.
+Stop bots from brute force hacking your wp-login.php
 
 == Description ==
 
-Protect wp-login.php form from brute force attacks.
+Stop bots from brute force hacking your wp-login.php
 
 == Installation ==
 
@@ -25,6 +25,9 @@ Protect wp-login.php form from brute force attacks.
 
 == Screenshots ==
 
+1. Wait a few seconds for the login to be secured
+
+2. Your login is a little bit more secure
 
 == Changelog ==
 
