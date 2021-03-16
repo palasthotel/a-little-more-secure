@@ -4,7 +4,7 @@
  * Plugin Name: A little more secure
  * Plugin URI: https://github.com/palasthotel/a-little-more-secure
  * Description: Stop bots from brute force hacking your wp-login.php
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Palasthotel <edward.bock@palasthotel.de>
  * Author URI: https://palasthotel.de
  * Text Domain: a-little-more-secure
@@ -129,8 +129,9 @@ class Plugin {
                     waitEl.style.display = "none";
                     redirectEl.style.display = "inherit";
                     const href = window.location.href;
-                    const connector = href.indexOf("?") > 0 ? "&" : "?";
-                    window.location.href = href + connector + "<?= $getParam; ?>";
+                    const hashParts = href.split("#");
+                    const connector = hashParts[0].indexOf("?") > 0 ? "&" : "?";
+                    window.location.href = hashParts[0] + connector + "<?= $getParam; ?>"+( hashParts.length > 1 ?  "#"+hashParts[1] : "");
                 }, waitForSeconds * 1000);
             </script>
             </form>

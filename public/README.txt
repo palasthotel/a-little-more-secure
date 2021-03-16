@@ -4,7 +4,7 @@ Donate link: http://palasthotel.de/
 Tags: security
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -30,6 +30,9 @@ Stop bots from brute force hacking your wp-login.php
 2. Your login is a little bit more secure
 
 == Changelog ==
+
+= 1.0.2 =
+* Bugfix: Not redirected properly if hash in url
 
 = 1.0.1 =
 * WP5.7 compatible
