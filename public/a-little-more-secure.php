@@ -57,6 +57,9 @@ class Plugin {
 	public function login_form() {
 		$getParam = $this->getParamName();
 		if ( ! isset( $_GET[ $getParam ] ) ) {
+
+		    http_response_code(404);
+
 			$waitForSeconds = apply_filters( self::FILTER_REDIRECT_WAIT_SECONDS, self::DEFAULT_REDIRECT_WAIT_SECONDS );
 
 			if ( WP_DEBUG ) {
@@ -172,7 +175,15 @@ class Plugin {
 				! wp_verify_nonce( $_POST[ self::NONCE_NAME ], self::NONCE_ACTION )
 			)
 		) {
-			wp_die( __( "Sorry, this feels not very secure.", self::DOMAIN ) );
+			wp_die(
+				__( "Sorry, this feels not very secure.", self::DOMAIN ),
+				__( "🔒", self::DOMAIN ),
+				[
+					"response" => 400,
+                    "link_text" => __("Goto login form", Plugin::DOMAIN),
+                    "link_url" => wp_login_url(),
+				]
+			);
 		}
 	}
 

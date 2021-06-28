@@ -33,6 +33,7 @@ Stop bots from brute force hacking your wp-login.php
 
 = 1.0.3 =
 * Optimization: load textdomain properly
+* Optimization: 404 if no valid login parameter
 
 = 1.0.2 =
 * Bugfix: Not redirected properly if hash in url

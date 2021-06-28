@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: A little more secure\n"
-"POT-Creation-Date: 2021-01-27 07:44+0100\n"
-"PO-Revision-Date: 2021-01-27 07:45+0100\n"
+"POT-Creation-Date: 2021-06-28 08:21+0200\n"
+"PO-Revision-Date: 2021-06-28 08:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: a-little-more-secure.php\n"
@@ -21,30 +21,38 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
-#: a-little-more-secure.php:69
+#: a-little-more-secure.php:74
 msgid "Securing login..."
 msgstr "Anmeldung wird abgesichert..."
 
-#: a-little-more-secure.php:71
+#: a-little-more-secure.php:76
 #, php-format
 msgid "%s seconds left"
 msgstr "noch %s Sekunden"
 
-#: a-little-more-secure.php:78
+#: a-little-more-secure.php:83
 msgid "Redirect to secure login..."
 msgstr "Umleiten zur sicheren Anmeldung..."
 
-#: a-little-more-secure.php:149
+#: a-little-more-secure.php:159
 msgid "Your login is a little more secure."
 msgstr "Ihr Login ist etwas sicherer."
 
-#: a-little-more-secure.php:168
+#: a-little-more-secure.php:179
 msgid "Sorry, this feels not very secure."
 msgstr "Sorry, das fühlt sich nicht sicher an."
 
+#: a-little-more-secure.php:180
+msgid "🔒"
+msgstr "🔒"
+
+#: a-little-more-secure.php:183
+msgid "Goto login form"
+msgstr "Zum Anmeldeformular"
+
 #. Plugin Name of the plugin/theme
 msgid "A little more secure"
-msgstr ""
+msgstr "A little more secure"
 
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/palasthotel/a-little-more-secure"
