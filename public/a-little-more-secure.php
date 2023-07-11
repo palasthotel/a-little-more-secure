@@ -10,10 +10,10 @@
  * Text Domain: a-little-more-secure
  * Domain Path: /languages
  * Requires at least: 4.0
- * Tested up to: 5.8
+ * Tested up to: 6.2.2
  * License: http://www.gnu.org/licenses/gpl-3.0.html GPLv3
  *
- * @copyright Copyright (c) 2021, Palasthotel
+ * @copyright Copyright (c) 2023, Palasthotel
  * @package Palasthotel\ALittleMoreSecure
  */
 
