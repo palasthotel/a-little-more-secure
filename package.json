@@ -1,0 +1,29 @@
+{
+	"name": "a-little-more-secure",
+	"version": "1.0.0",
+	"description": "",
+	"homepage": "https://www.edwardbock.de/referenzen/plugins",
+	"license": "MIT",
+	"author": {
+		"name": "Edward Bock",
+		"email": "hi@edwardbock.de",
+		"url": "https://www.edwardbock.de"
+	},
+	"scripts": {
+		"pack": "./bin/pack.sh",
+		"wp-env": "wp-env"
+	},
+	"prettier": "@wordpress/prettier-config",
+	"devDependencies": {
+		"@wordpress/env": "^10.14.0",
+		"@wordpress/prettier-config": "^4.14.0",
+		"prettier": "^3.4.2"
+	},
+	"engines": {
+		"node": ">=22",
+		"pnpm": ">=9"
+	},
+	"volta": {
+		"node": "22.12.0"
+	}
+}
