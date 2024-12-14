@@ -1,0 +1,12 @@
+{
+  "name": "edwardbock/a-little-more-secure",
+  "description": "Security plugin for WordPress",
+  "autoload": {
+    "psr-4": {
+      "Palasthotel\\ALittleMoreSecure\\": "classes"
+    }
+  },
+  "require": {
+    "php": "~8.2"
+  }
+}

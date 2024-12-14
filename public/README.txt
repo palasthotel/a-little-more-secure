@@ -3,8 +3,8 @@ Contributors: palasthotel, edwardbock
 Donate link: http://palasthotel.de/
 Tags: security
 Requires at least: 5.0
-Tested up to: 6.5.2
-Stable tag: 1.0.4
+Tested up to: 6.7.1
+Stable tag: 1.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -30,6 +30,10 @@ Stop bots from brute force hacking your wp-login.php
 2. Your login is a little bit more secure
 
 == Changelog ==
+
+= 1.1.0 =
+
+* one time security parameter feature
 
 = 1.0.4 =
 * Check compatiblility with 6.5.2
