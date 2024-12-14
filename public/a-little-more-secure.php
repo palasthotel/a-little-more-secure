@@ -34,7 +34,7 @@ class Plugin extends Components\Plugin {
 	const FILTER_IS_UNLOCKED = "a_little_more_secure_is_unlocked";
 
 	const DEFAULT_GET_PARAM_NAME = "a-little-more-secure";
-	const DEFAULT_REDIRECT_WAIT_SECONDS = 30;
+	const DEFAULT_REDIRECT_WAIT_SECONDS = 3;
 	public Environment $environment;
 
 	public function onCreate() {
@@ -46,7 +46,6 @@ class Plugin extends Components\Plugin {
 
 		$this->environment = new Environment($this);
 		new Gate($this);
-
 
 	}
 }
