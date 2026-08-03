@@ -11,10 +11,33 @@ class Gate extends Component {
 	public function onCreate(): void {
 		parent::onCreate();
 
+		add_action( 'login_init', [ $this, 'login_init' ] );
 		add_action( 'login_form', [ $this, 'login_form' ] );
 		add_action( "login_form_login", [ $this, 'login_action' ] );
 		add_filter( 'login_form_bottom', [ $this, 'login_form_bottom' ], 10, 2 );
 
+	}
+
+	/**
+	 * Sets the 404 status for a locked login form.
+	 *
+	 * This has to happen on login_init: wp-login.php calls login_header() before
+	 * it fires login_form, so by the time the form is rendered the response may
+	 * already be on its way and the status code no longer changeable.
+	 *
+	 * Only the login form is hidden, so every other login action - lost password,
+	 * registration, confirmations - keeps its normal status.
+	 */
+	public function login_init(): void {
+		$action = $_REQUEST['action'] ?? 'login';
+
+		if ( ! is_string( $action ) || ! in_array( $action, [ '', 'login' ], true ) ) {
+			return;
+		}
+
+		if ( ! $this->isUnlocked() ) {
+			http_response_code( 404 );
+		}
 	}
 
 	public function isUnlocked(): bool {
@@ -28,7 +51,7 @@ class Gate extends Component {
 
 		if (!$this->isUnlocked()) {
 
-			http_response_code(404);
+			// The status code is set on login_init, before the page starts printing.
 
 			$waitForSeconds = $this->plugin->environment->getWaitForSeconds();
 			$paramName      = $this->plugin->environment->getParamName();
