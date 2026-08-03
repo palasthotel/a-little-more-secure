@@ -1,0 +1,79 @@
+# Contributing
+
+## Branching
+
+`main` is the default branch and always reflects what is released (or about to
+be released). Work on a feature branch and open a pull request against `main`.
+
+## Commit messages
+
+Releases and the changelog are generated from the commit history, so commit
+messages follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>[optional scope][!]: <description>
+
+[optional body]
+
+[optional footer]
+```
+
+| Type | Effect on the version | Appears in changelog |
+|---|---|---|
+| `fix:` | patch (1.0.3 → 1.0.4) | yes, "Bug Fixes" |
+| `feat:` | minor (1.0.3 → 1.1.0) | yes, "Features" |
+| `feat!:` or `BREAKING CHANGE:` footer | major (1.0.3 → 2.0.0) | yes, highlighted |
+| `docs:`, `refactor:`, `chore:`, `deps:`, `style:`, `test:`, `ci:` | none | no |
+
+Examples:
+
+```
+fix: reject a non-string nonce before verifying it
+feat: allow the unlock parameter to carry a value
+feat!: drop the a_little_more_secure_nonce_field() function
+
+BREAKING CHANGE: themes calling a_little_more_secure_nonce_field() must switch
+to Plugin::instance()->gate->nonceField()
+```
+
+A pull request that should trigger a release needs at least one `fix:` or
+`feat:` commit. When squash-merging, make sure the squash commit message itself
+is a conventional commit — that is the message release-please reads.
+
+## Versions
+
+Never edit version numbers by hand. `version.txt`, `CHANGELOG.md`,
+`public/a-little-more-secure.php` and the `Stable tag:` in `public/README.txt` are all
+maintained by the release pipeline — see
+[.github/WORKFLOWS.md](.github/WORKFLOWS.md).
+
+Content changes to `public/README.txt` (description, FAQ, screenshots,
+tested-up-to) are of course done by hand; just leave `Stable tag:` and the
+`== Changelog ==` entries alone.
+
+## Local development
+
+```sh
+npm install
+npm run wp-env start     # WordPress with public/ mounted as the plugin
+```
+
+To test the repository itself as a plugin, symlink or copy the repository root
+into `wp-content/plugins/`. WordPress only discovers plugin files one directory
+level deep, so it would never find `public/a-little-more-secure.php` — the
+`a-little-more-secure.php` wrapper in the root includes it and registers the
+activation hooks against the file WordPress actually knows about. It carries
+`X.X.X` as its version so it is obvious in the plugin list that this entry is
+never released.
+
+`bin/pack.sh` builds `a-little-more-secure.zip` from `public/`, which is exactly
+what the release deploys.
+
+## Checks
+
+Every PR runs `php -l` against PHP 8.2, 8.3 and 8.4 and runs `bin/pack.sh`. The
+plugin declares `Requires PHP: 8.2` and `Requires at least: 5.0` (WordPress).
+The PHP floor comes from `public/composer.json` (`php ~8.2`), whose generated
+`vendor/composer/platform_check.php` turns anything older into a fatal error —
+so if you change that constraint, change the plugin header and
+`public/README.txt` in the same PR.

@@ -1,8 +1,8 @@
 {
 	"name": "a-little-more-secure",
-	"version": "1.0.0",
-	"description": "",
-	"homepage": "https://www.edwardbock.de/referenzen/plugins",
+	"private": true,
+	"description": "Development tooling for the A little more secure WordPress plugin. The plugin itself lives in public/.",
+	"homepage": "https://github.com/palasthotel/a-little-more-secure",
 	"license": "GPL-3.0-or-later",
 	"author": {
 		"name": "Edward Bock",
@@ -20,8 +20,7 @@
 		"prettier": "^3.4.2"
 	},
 	"engines": {
-		"node": ">=22",
-		"pnpm": ">=9"
+		"node": ">=22"
 	},
 	"volta": {
 		"node": "22.12.0"
