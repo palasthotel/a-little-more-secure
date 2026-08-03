@@ -74,8 +74,13 @@ jobs:
           VERSION=${VERSION}
           rm -rf trunk/* tags/$VERSION || true
           mkdir -p trunk tags/$VERSION
-          cp -r ../public/* trunk/
-          cp -r trunk/* tags/$VERSION/
+          # -L resolves symlinks into real files. public/languages carries six
+          # symlinks pointing at the de_DE translations, and SVN has always held
+          # those paths as regular files. Copying the links as links makes SVN
+          # refuse the commit with "unexpectedly changed kind". bin/pack.sh
+          # resolves them the same way, so the zip and the SVN payload match.
+          rsync -rL ../public/ trunk/
+          rsync -rL trunk/ tags/$VERSION/
           # assets/ holds the media for the wordpress.org plugin page (banner,
           # icon, screenshots). It is not part of the download, and the
           # repository is the source of truth for it — hence --delete.
