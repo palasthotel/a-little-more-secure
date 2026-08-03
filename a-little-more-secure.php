@@ -11,6 +11,8 @@
  * Domain Path:       /public/languages
  */
 
+defined( 'ABSPATH' ) || exit;
+
 use Palasthotel\ALittleMoreSecure\Plugin;
 
 include dirname(__FILE__) . "/public/a-little-more-secure.php";
