@@ -2,6 +2,8 @@
 
 namespace Palasthotel\ALittleMoreSecure;
 
+defined( 'ABSPATH' ) || exit;
+
 use Palasthotel\ALittleMoreSecure\Components\Component;
 
 class Environment extends Component {

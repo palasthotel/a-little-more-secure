@@ -2,6 +2,8 @@
 
 namespace Palasthotel\ALittleMoreSecure\Components;
 
+defined( 'ABSPATH' ) || exit;
+
 class Assets {
 
 	private Plugin $plugin;

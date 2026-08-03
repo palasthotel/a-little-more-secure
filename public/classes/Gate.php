@@ -2,6 +2,8 @@
 
 namespace Palasthotel\ALittleMoreSecure;
 
+defined( 'ABSPATH' ) || exit;
+
 use Palasthotel\ALittleMoreSecure\Components\Component;
 
 class Gate extends Component {
@@ -29,6 +31,7 @@ class Gate extends Component {
 			http_response_code(404);
 
 			$waitForSeconds = $this->plugin->environment->getWaitForSeconds();
+			$paramName      = $this->plugin->environment->getParamName();
 
 			if ( WP_DEBUG ) {
 				echo "<!-- START secure login -->";
@@ -39,16 +42,16 @@ class Gate extends Component {
 
 			// ------ wait for secure login ---
 			echo "<div id='wait-for-secure-login'>";
-			printf( "<p>%s</p>", __( "Securing login...", Plugin::DOMAIN ) );
+			printf( "<p>%s</p>", __( "Securing login...", 'a-little-more-secure' ) );
 			$text = sprintf(
-				__( "%s seconds left", Plugin::DOMAIN ),
+				__( "%s seconds left", 'a-little-more-secure' ),
 				"<span id='wait-for-secure-login__seconds'>$waitForSeconds</span>"
 			);
 			echo "<p><i>$text</i></p>";
 			echo "</div>";
 
 			// ------ redirect to login ---
-			printf( "<div id='redirect-to-secure-login'>%s</div>", __( "Redirect to secure login...", Plugin::DOMAIN ) );
+			printf( "<div id='redirect-to-secure-login'>%s</div>", __( "Redirect to secure login...", 'a-little-more-secure' ) );
 
 			// --- END
 			echo "</div>";
@@ -84,7 +87,10 @@ class Gate extends Component {
 				}
 			</style>
 			<script>
-				const waitForSeconds = <?= $waitForSeconds ?>;
+				// Both values come from filters a site can override, so they are
+				// encoded instead of pasted into the JavaScript source.
+				const waitForSeconds = <?= (int) $waitForSeconds ?>;
+				const paramName = <?= wp_json_encode( $paramName ) ?>;
 				let waited = 0;
 
 				const waitEl = document.getElementById("wait-for-secure-login");
@@ -108,7 +114,7 @@ class Gate extends Component {
 					const href = window.location.href;
 					const hashParts = href.split("#");
 					const connector = hashParts[0].indexOf("?") > 0 ? "&" : "?";
-					window.location.href = hashParts[0] + connector + "<?= $this->plugin->environment->getParamName(); ?>" + (hashParts.length > 1 ? "#" + hashParts[1] : "");
+					window.location.href = hashParts[0] + connector + encodeURIComponent(paramName) + (hashParts.length > 1 ? "#" + hashParts[1] : "");
 				}, waitForSeconds * 1000);
 			</script>
 			<?php
@@ -123,7 +129,7 @@ class Gate extends Component {
 				}
 			</style>
 			<?php
-			printf( "<p id='secure-login-info'>🔒 %s</p>", __( "Your login is a little more secure.", Plugin::DOMAIN ) );
+			printf( "<p id='secure-login-info'>🔒 %s</p>", __( "Your login is a little more secure.", 'a-little-more-secure' ) );
 			$this->nonceField();
 		}
 	}
@@ -133,21 +139,22 @@ class Gate extends Component {
 	}
 
 	public function login_action() {
-		if (
-			$_SERVER['REQUEST_METHOD'] === 'POST'
-			&&
-			(
-				! isset( $_POST[ Plugin::NONCE_NAME ] )
-				||
-				! wp_verify_nonce( $_POST[ Plugin::NONCE_NAME ], Plugin::NONCE_ACTION )
-			)
-		) {
+		if ( ( $_SERVER['REQUEST_METHOD'] ?? '' ) !== 'POST' ) {
+			return;
+		}
+
+		// Anything but a string - an array from "nonce[]=x", for instance - is not
+		// a nonce, so it is rejected before wp_verify_nonce() ever sees it.
+		$nonce = $_POST[ Plugin::NONCE_NAME ] ?? null;
+		$nonce = is_string( $nonce ) ? sanitize_text_field( wp_unslash( $nonce ) ) : '';
+
+		if ( ! wp_verify_nonce( $nonce, Plugin::NONCE_ACTION ) ) {
 			wp_die(
-				__( "Sorry, this feels not very secure.", Plugin::DOMAIN ),
-				__( "🔒", Plugin::DOMAIN ),
+				__( "Sorry, this feels not very secure.", 'a-little-more-secure' ),
+				__( "🔒", 'a-little-more-secure' ),
 				[
 					"response" => 400,
-					"link_text" => __("Goto login form", Plugin::DOMAIN),
+					"link_text" => __("Goto login form", 'a-little-more-secure'),
 					"link_url" => wp_login_url(),
 				]
 			);

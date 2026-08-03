@@ -3,6 +3,8 @@
 
 namespace Palasthotel\ALittleMoreSecure\Components;
 
+defined( 'ABSPATH' ) || exit;
+
 
 abstract class Update {
 

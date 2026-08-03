@@ -21,6 +21,8 @@
 
 namespace Palasthotel\ALittleMoreSecure;
 
+defined( 'ABSPATH' ) || exit;
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 class Plugin extends Components\Plugin {

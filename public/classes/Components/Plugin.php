@@ -2,6 +2,8 @@
 
 namespace Palasthotel\ALittleMoreSecure\Components;
 
+defined( 'ABSPATH' ) || exit;
+
 use ReflectionClass;
 use ReflectionException;
 
