@@ -129,7 +129,9 @@ Tag: v1.1.0
       │
       └── SVN commit
               rm trunk/*  +  rm tags/$VERSION
-              cp public/* → trunk/  +  tags/$VERSION/
+              rsync -rL public/ → trunk/  →  tags/$VERSION/
+                    -L resolves the symlinks in public/languages; SVN
+                    holds those paths as regular files
               rsync --delete assets/ → assets/   (plugin page media)
               svn add --force .
               svn rm deleted files
