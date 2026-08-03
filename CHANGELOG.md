@@ -1,13 +1,5 @@
 # Changelog
 
-## [1.1.1](https://github.com/palasthotel/a-little-more-secure/compare/v1.1.0...v1.1.1) (2026-08-03)
-
-
-### Bug Fixes
-
-* resolve symlinks when copying the payload into SVN ([0b7f0a2](https://github.com/palasthotel/a-little-more-secure/commit/0b7f0a2882527f4b89901836f5474e7e3eb85eaa))
-* resolve symlinks when copying the payload into SVN ([51a9b4d](https://github.com/palasthotel/a-little-more-secure/commit/51a9b4d339513539b05a237eb6d6f041c94dd1ef))
-
 ## [1.1.0](https://github.com/palasthotel/a-little-more-secure/compare/v1.0.4...v1.1.0) (2026-08-03)
 
 
