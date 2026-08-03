@@ -50,6 +50,44 @@ nonce itself, otherwise the POST is rejected — call
 `a_little_more_secure_nonce_field()` inside the form. Forms built with
 `wp_login_form()` get it automatically.
 
+= Rotating the unlock parameter =
+
+The default parameter name is public knowledge, so a bot written for this plugin
+can hardcode it. If you want a name that changes over time, put the token in the
+name itself: the parameter name filter runs both when the redirect URL is built
+and when the request is checked, so both sides agree without storing anything.
+
+`function my_alms_token( int $bucketsAgo = 0 ): string {
+	$ttl    = 15 * MINUTE_IN_SECONDS;
+	$bucket = (int) floor( time() / $ttl ) - $bucketsAgo;
+
+	return 'alms_' . substr( hash_hmac( 'sha256', 'alms|' . $bucket, wp_salt( 'nonce' ) ), 0, 20 );
+}
+
+add_filter( 'a_little_more_secure_get_param_name', function () {
+	return my_alms_token();
+} );
+
+add_filter( 'a_little_more_secure_is_unlocked', function ( $is_unlocked ) {
+	return $is_unlocked || isset( $_GET[ my_alms_token( 1 ) ] );
+} );`
+
+Accepting the previous bucket as well keeps a request that crosses a bucket
+boundary from being rejected, so the effective validity is 15 to 30 minutes.
+Keep the token alphanumeric — PHP rewrites dots and spaces in parameter names.
+
+Be aware of what this does and does not do. It stops bots that hardcode the
+parameter name. It does not stop anything that fetches the page and reads the
+name out of it — the value has to be handed to the browser before anyone is
+logged in, so a scraper can always obtain it too.
+
+Three things to expect: bookmarked unlock URLs stop working once the token
+expires, though an expired token lands on the holding page and is redirected
+with a fresh one, so it costs one extra request. Keep the lifetime well above
+the redirect delay, otherwise the token can expire during the countdown. And be
+careful with page caching — a short-lived token in cached HTML means logins that
+are rejected until the cache is refreshed.
+
 == Installation ==
 
 1. Upload `a-little-more-secure.zip` to the `/wp-content/plugins/` directory

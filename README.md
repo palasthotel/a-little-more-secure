@@ -83,6 +83,51 @@ a_little_more_secure_nonce_field();
 Forms rendered through `wp_login_form()` get the field automatically via the
 `login_form_bottom` filter.
 
+### Rotating the unlock parameter
+
+The default parameter name is in the plugin source on wordpress.org, so a bot
+written for this plugin can hardcode it. To make the name change over time, put
+the token in the name itself — `a_little_more_secure_get_param_name` runs both
+when the redirect URL is built and when the request is checked, so both sides
+agree without storing anything:
+
+```php
+function my_alms_token( int $bucketsAgo = 0 ): string {
+	$ttl    = 15 * MINUTE_IN_SECONDS;
+	$bucket = (int) floor( time() / $ttl ) - $bucketsAgo;
+
+	return 'alms_' . substr( hash_hmac( 'sha256', 'alms|' . $bucket, wp_salt( 'nonce' ) ), 0, 20 );
+}
+
+add_filter( 'a_little_more_secure_get_param_name', function () {
+	return my_alms_token();
+} );
+
+// Accept the previous bucket too, so a request crossing a bucket boundary is not
+// rejected. Effective validity: 15 to 30 minutes.
+add_filter( 'a_little_more_secure_is_unlocked', function ( $is_unlocked ) {
+	return $is_unlocked || isset( $_GET[ my_alms_token( 1 ) ] );
+} );
+```
+
+Keep the token alphanumeric — PHP rewrites dots and spaces in `$_GET` keys.
+
+**What this is worth.** It stops bots that hardcode the parameter name. It does
+not stop anything that fetches the page and reads the name out of it: the value
+has to reach the browser before anyone is logged in, so a scraper can obtain it
+just as easily. This is obfuscation, not access control.
+
+**What it costs.** Bookmarked unlock URLs stop working once the token expires —
+an expired token lands on the holding page and gets redirected with a fresh one,
+so the cost is one extra request, but it is a behaviour change. Keep the lifetime
+well above `a_little_more_secure_redirect_wait_seconds`, or the token can expire
+during the countdown. And watch page caching: `login_form_bottom` is part of
+`wp_login_form()` output and can sit on a cached page, where a short-lived token
+means logins rejected until the cache refreshes.
+
+For the same reason the plugin does not ship this behaviour itself — see
+[issue #3](https://github.com/palasthotel/a-little-more-secure/issues/3).
+
 ## Repository layout
 
 `public/` is exactly what ships to WordPress.org. Everything outside it is
