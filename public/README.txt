@@ -96,6 +96,69 @@ are rejected until the cache is refreshed.
 
 == Frequently Asked Questions ==
 
+= Do I have to configure anything? =
+
+No. Activate the plugin and it works. Everything that can be changed is changed
+with the filters described above, in a theme or a small plugin of your own.
+
+= Why does my login page return a 404? =
+
+That is intentional. A request to wp-login.php without the unlock parameter is
+answered with a 404 so that automated scanners see a missing page. Your browser
+still shows the holding page and is redirected to the real form a few seconds
+later. Uptime monitors and scanners pointed at wp-login.php will report it as
+missing — point them at a different URL, or exclude wp-login.php.
+
+= I cannot log in. It says "Sorry, this feels not very secure". =
+
+That message means the login form was submitted without a valid nonce. The usual
+causes:
+
+1. Something is caching wp-login.php. It must not be cached — the page carries a
+nonce that goes stale.
+2. Your theme renders its own login form that posts to wp-login.php without the
+nonce field. Call `a_little_more_secure_nonce_field()` inside the form.
+3. The login page sat open in a tab for more than a day. Nonces expire after at
+most 24 hours. Reload the page and log in again.
+
+= Does it work without JavaScript? =
+
+No. The redirect to the unlocked form is done in JavaScript, and only the
+unlocked form carries the nonce a login needs. Without JavaScript you will see
+the login page but the submission is rejected. If that is a problem for you, add
+your own rule with the `a_little_more_secure_is_unlocked` filter.
+
+= Does it protect XML-RPC and the REST API? =
+
+No. The plugin only guards wp-login.php. Brute force attempts against
+xmlrpc.php, the REST API or application passwords are unaffected, and those are
+common targets. If you do not use XML-RPC, disable it separately.
+
+= Can I keep using a bookmarked login URL? =
+
+Yes. The unlock parameter is a fixed name by default, so a bookmark such as
+example.com/wp-login.php?a-little-more-secure keeps working and skips the wait.
+That changes only if you set up a rotating parameter as described above.
+
+= Does it work on multisite? =
+
+Yes, network activated or per site. The plugin stores nothing and has no
+per-site setup, so both work the same way.
+
+= Does the plugin store any data about my visitors? =
+
+No. It writes no options, sets no cookies and creates no database tables. The
+only thing it looks at is whether the unlock parameter is present in the request.
+
+= Is my login secure now? =
+
+More secure than before, but this is a speed bump, not a lock. The unlock
+parameter and the nonce both have to be handed to a browser that is not logged
+in yet, so anything that fetches the page can read them too. It defeats bots
+that post blindly at wp-login.php, which is most of them. It does not defeat a
+determined attacker, and it does nothing about weak passwords or repeated
+attempts from the same source — combine it with strong passwords and rate
+limiting.
 
 == Screenshots ==
 
