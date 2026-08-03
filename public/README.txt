@@ -5,7 +5,7 @@ Tags: security
 Requires at least: 5.0
 Requires PHP: 8.2
 Tested up to: 6.7.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -167,6 +167,11 @@ limiting.
 2. Your login is a little bit more secure
 
 == Changelog ==
+
+= 1.1.1 =
+**Bug Fixes**
+* resolve symlinks when copying the payload into SVN (0b7f0a2)
+* resolve symlinks when copying the payload into SVN (51a9b4d)
 
 = 1.1.0 =
 **Features**
