@@ -5,7 +5,7 @@ Tags: security
 Requires at least: 5.0
 Requires PHP: 8.2
 Tested up to: 6.7.1
-Stable tag: 1.0.4
+Stable tag: 1.1.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -167,6 +167,18 @@ limiting.
 2. Your login is a little bit more secure
 
 == Changelog ==
+
+= 1.1.0 =
+**Features**
+* let sites decide for themselves when the login is unlocked (5d16264)
+
+**Bug Fixes**
+* block direct access to the DEV wrapper too (45550fe)
+* declare GPL-3.0 and the PHP version the plugin actually needs (141c4a2)
+* harden the login gate and make the translations extractable (33f28cf)
+* restore the public API function dropped in the rewrite (188482d)
+* set the 404 before the login page starts printing (73b7856)
+* stop the Playground blueprint from pinning an old version (1dd10cc)
 
 = 1.0.4 =
 * Check compatiblility with 6.5.2
