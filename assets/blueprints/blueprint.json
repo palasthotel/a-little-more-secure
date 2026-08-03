@@ -1,7 +1,7 @@
 {
   "landingPage": "/wp-login.php",
   "preferredVersions": {
-    "php": "8.0",
+    "php": "8.2",
     "wp": "latest"
   },
   "phpExtensionBundles": [
@@ -13,9 +13,9 @@
   "steps": [
     {
       "step": "installPlugin",
-      "pluginZipFile": {
-        "resource": "url",
-        "url": "https://downloads.wordpress.org/plugin/a-little-more-secure.1.0.3.zip"
+      "pluginData": {
+        "resource": "wordpress.org/plugins",
+        "slug": "a-little-more-secure"
       },
       "options": {
         "activate": true

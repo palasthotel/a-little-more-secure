@@ -1,5 +1,5 @@
 === A litte more secure ===
-Contributors: palasthotel, edwardbock
+Contributors: palasthotel, edwardbock, janaeggebrecht
 Donate link: http://palasthotel.de/
 Tags: security
 Requires at least: 5.0
