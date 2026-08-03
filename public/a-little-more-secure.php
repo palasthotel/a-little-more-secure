@@ -36,6 +36,7 @@ class Plugin extends Components\Plugin {
 	const DEFAULT_GET_PARAM_NAME = "a-little-more-secure";
 	const DEFAULT_REDIRECT_WAIT_SECONDS = 3;
 	public Environment $environment;
+	public Gate $gate;
 
 	public function onCreate() {
 
@@ -45,9 +46,11 @@ class Plugin extends Components\Plugin {
 		);
 
 		$this->environment = new Environment($this);
-		new Gate($this);
+		$this->gate = new Gate($this);
 
 	}
 }
 
 Plugin::instance();
+
+require_once dirname( __FILE__ ) . "/public-functions.php";
