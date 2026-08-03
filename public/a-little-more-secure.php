@@ -9,9 +9,11 @@
  * Author URI: https://palasthotel.de
  * Text Domain: a-little-more-secure
  * Domain Path: /languages
- * Requires at least: 4.0
+ * Requires at least: 5.0
+ * Requires PHP: 8.2
  * Tested up to: 6.7.1
- * License: http://www.gnu.org/licenses/gpl-3.0.html GPLv3
+ * License: GPL-3.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
  * @copyright Palasthotel
  * @package Palasthotel\ALittleMoreSecure

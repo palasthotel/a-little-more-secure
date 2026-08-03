@@ -3,10 +3,11 @@ Contributors: palasthotel, edwardbock
 Donate link: http://palasthotel.de/
 Tags: security
 Requires at least: 5.0
+Requires PHP: 8.2
 Tested up to: 6.7.1
 Stable tag: 1.1.0
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl
+License: GPL-3.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Stop bots from brute force hacking your wp-login.php
 
