@@ -1,0 +1,25 @@
+{
+  "landingPage": "/wp-login.php",
+  "preferredVersions": {
+    "php": "8.2",
+    "wp": "latest"
+  },
+  "phpExtensionBundles": [
+    "kitchen-sink"
+  ],
+  "features": {
+    "networking": true
+  },
+  "steps": [
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "wordpress.org/plugins",
+        "slug": "a-little-more-secure"
+      },
+      "options": {
+        "activate": true
+      }
+    }
+  ]
+}
