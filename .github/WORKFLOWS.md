@@ -107,7 +107,7 @@ Release PR opened / updated
 
 ### `wordpress-svn-release.yml` — Deploy to WordPress.org
 
-**Trigger:** Push of a `v*` tag
+**Trigger:** Push of a `v*` tag, or `workflow_dispatch` with a version input
 
 ```
 Tag: v1.1.0
@@ -129,7 +129,9 @@ Tag: v1.1.0
       │
       └── SVN commit
               rm trunk/*  +  rm tags/$VERSION
-              cp public/* → trunk/  +  tags/$VERSION/
+              rsync -rL public/ → trunk/  →  tags/$VERSION/
+                    -L resolves the symlinks in public/languages; SVN
+                    holds those paths as regular files
               rsync --delete assets/ → assets/   (plugin page media)
               svn add --force .
               svn rm deleted files
@@ -141,6 +143,23 @@ page only — it is not part of what users download. The repository mirrors it w
 `--delete`, so it is the source of truth. When you adopt this workflow in a repo
 whose SVN `assets/` already holds files, copy those into the repository first,
 otherwise the next release deletes them.
+
+---
+
+### Re-running a failed deploy
+
+A tag ruleset prevents `v*` tags from being moved, and re-running a tag event
+always replays the workflow file as it existed at that tag — so a fix to the
+workflow cannot be picked up by re-running the failed job. Use the
+**Run workflow** button on this workflow instead, select the branch that carries
+the fix, and enter the version without the leading `v`.
+
+A dispatch run deploys the content of the ref you select, not of the tag. That is
+usually what you want right after a failed release, because the branch and the
+tag hold the same plugin files and only the workflow differs. If they have since
+diverged, `bin/version-checker.sh` fails the job before anything is published —
+it compares `version.txt`, the `Stable tag` and the plugin header against the
+version you entered.
 
 ---
 
